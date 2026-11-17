@@ -315,9 +315,6 @@ Upgrades
 		
 	//golden cheese upgrades
 	*goldenTouch
-
-//golden cheese upgrades
-	*goldenTouch
 		name:Golden touch
 		desc:The delicate art of finding dairy made of precious metals.<//><b>Effect:</b><.>1% chance of gaining 1 golden cheese per mouse click
 		icon:icons[2,5]
