@@ -1,317 +1,110 @@
-Let's make a game!
-	name:Mouse Clicker
-	by:Bsanosam
-	desc:idk
-	created:11/16/26
-	updated:11/16/26
-	version:1
-
-Settings
-	background:stuff/meadow.jpg
-	building cost increase:115%
-	building cost refund:50%
-	spritesheet:icons, 48 by 48, stuff/bunnyIcons.png
-	stylesheet:stuff/bigBlue.css
-
-Layout
-	use default
-
-Buttons
-	*mouseButton
-		name:Mice creator
-		desc:You need mice to have a "mice clicker"
-		on click:anim icon wobble
-		on click:yield 1 mouse
-		on click:if (have goldenTouch and chance(1%)) yield 1 goldenCheese
-		icon:stuff/bunny.png
-		no text
-		class:bigButton hasFlares
-		icon class:shadowed
-		tooltip origin:bottom
-		tooltip class:red
-
-Resources
-	*mouse|mice
-		name:Mouse|Mice
-		desc:These are your mice.
-		icon:icons[0,0]
-		class:noBackground
-		show earned
-	*goldenCheese|goldenCheeses
-		name:Golden cheese|Golden cheeses
-		desc:These shiny wedges of cheese are terribly rare, terribly precious and terribly delicious!
-		icon:icons[0,1]
-		class:noBackground
-		hidden when 0
-
-Shinies
-	*GoldMouse
-		on click:log Woop
-		movement:onBottom moveTop fade bounce:0.05
-		frequency:60
-		frequency variation:30
-		icon:stuff/luckyBunny.png
-		class:bigButton
-		on click:
-			$boost=1
-			if (have clover) $boost=4
-			if (chance(25%))
-				//get at least 7, or between 1 and 3 minutes of our mouse production
-				$amount=max(7,random(mice:ps*60*1,mice:ps*60*3))*$boost
-				toast The gold mouse grants you [$amount] mice.
-				yield $amount mice
-			else
-				$amount=1*$boost
-				toast The Gold mouse grants you [$amount] golden cheese[s?$amount]!
-				yield $amount goldenCheese
-			end
-		end
-
-Buildings
-	*TEMPLATE
-		on click:anim glow
-		
-	*hole|holes
-		name:Mouse hole|Mouse holes
-		desc:A tiny little hole in the baseboard.<//><b>Effect:</b><.>Produces 1 mouse every 10 seconds.
-		icon:icons[3,0]
-		cost:15 mice
-		on tick:yield 0.1 mouse
-		unlocked
-		
-	*nest|nests
-		name:Mouse nest|Mouse nests
-		desc:A cozy nest made of shredded paper and lint.<//><b>Effect:</b><.>Produces 1 mouse every 2 seconds.
-		icon:icons[3,1]
-		cost:100 mice
-		on tick:yield 0.5 mice
-		req:100 mice:earned
-		
-	*burrow|burrows
-		name:Mouse burrow|Mouse burrows
-		desc:A much nicer underground home where full mouse families can live.<//><b>Effect:</b><.>Produces 5 mice per second.
-		icon:icons[3,2]
-		cost:600 mice
-		on tick:yield 5 mice
-		req:600 mice:earned
-		
-	*pantry|pantries
-		name:Kitchen pantry|Kitchen pantries
-		desc:A lovely pantry full of crumbs and snacks.<//><b>Effect:</b><.>Produces 12 mice per second.
-		icon:icons[3,3]
-		cost:4000 mice
-		on tick:yield 12 mice
-		req:4000 mice:earned
-		
-	*barn|barns
-		name:Grain barn|Grain barns
-		desc:A wide open barn full of hay and endless seeds.<//><b>Effect:</b><.>Produces 90 mice per second.
-		icon:icons[3,4]
-		cost:20000 mice
-		on tick:yield 90 mice
-		req:20000 mice:earned
-		
-	*village|villages
-		name:Mouse village|Mouse villages
-		desc:Your mice are building their own miniature villages now!<//><b>Effect:</b><.>Produces 300 mice per second.
-		icon:icons[3,5]
-		cost:200000 mice, 1 goldenCheese
-		on tick:yield 300 mice
-		req:200000 mice:earned and independenceDay
-		
-	*city|cities
-		name:Mouse city|Mouse cities
-		desc:A bustling little metropolis, populated with busy mice.<//><b>Effect:</b><.>Produces 1000 mice per second.
-		icon:icons[3,6]
-		cost:3000000 mice, 4 goldenCheeses
-		on tick:yield 1000 mice
-		req:3000000 mice:earned and independenceDay
-		
-	*citadel|citadels
-		name:Cheese moon citadel|Cheese moon citadels
-		desc:An ornate palace standing on the moon (which is obviously made of cheese), ruled by mouse kings and queens.<//><b>Effect:</b><.>Produces 4000 mice per second.
-		icon:icons[3,7]
-		cost:70000000 mice, 16 goldenCheeses
-		on tick:yield 4000 mice
-		on tick:if (have moonGardens) yield 0.01 goldenCheese
-		req:70000000 mice:earned and independenceDay
-		
-	*fortress
-		name:Cheddar fortress
-		text:Cheddar fortress ([this]%)
-		desc:A huge mouse castle carved from solid cheddar. A monument to the adventurous spirit of mousekind, which will take time and effort to complete.<//><b>The fortress is [this]% complete.</b>
-		icon:icons[3,8]
-		cost:300000000 mice, 100 goldenCheeses
-		req:70000000 mice:earned and independenceDay
-		limit:100
-		cost increase:105%
-
-Upgrades
-	*TEMPLATE
-		on click:anim glow
-	
-	//food upgrades
-	*crumbs
-		name:Bread crumbs
-		desc:A nice little supplement to your mice's diet.<//><b>Effect:</b><.>+1 mouse/click
-		icon:icons[1,1]
-		cost:100 mice
-		passive:increase mouse yield of mouseButton by 1
-		req:10 mice:earned
-		
-	*seeds
-		name:Sunflower seeds
-		desc:Crunchy little seeds, perfect for hungry mice.<//><b>Effect:</b><.>+1 mouse/click
-		icon:icons[1,2]
-		cost:200 mice
-		passive:increase mouse yield of mouseButton by 1
-		req:50 mice:earned
-		
-	*oats
-		name:Rolled oats
-		desc:Hearty grains loved by all mice.<//><b>Effect:</b><.>+1 mouse/click
-		icon:icons[1,3]
-		cost:400 mice
-		passive:increase mouse yield of mouseButton by 1
-		req:200 mice:earned
-		
-	*peanutButter
-		name:Peanut butter
-		desc:Sticky, nutty, and impossible for mice to resist.<//><b>Effect:</b><.>mice/click x2<.>mouse production +5%
-		icon:icons[1,4]
-		cost:3000 mice
-		passive:multiply mouse yield of mouseButton by 2
-		passive:multiply yield of mice by 1.05
-		req:1000 mice:earned
-		
-	*swiss
-		name:Swiss cheese
-		desc:Classic slices full of holes.<//><b>Effect:</b><.>mice/click x1.5<.>mouse production +5%
-		icon:icons[1,5]
-		cost:10000 mice
-		passive:multiply mouse yield of mouseButton by 1.5
-		passive:multiply yield of mice by 1.05
-		req:1000 mice:earned
-		
-	*cheddar
-		name:Sharp cheddar
-		desc:Orange, tangy, and rich.<//><b>Effect:</b><.>mice/click x1.5<.>mouse production +5%
-		icon:icons[1,6]
-		cost:50000 mice
-		passive:multiply mouse yield of mouseButton by 1.5
-		passive:multiply yield of mice by 1.05
-		req:10000 mice:earned
-		
-	*gouda
-		name:Smoked gouda
-		desc:Tasty, and gives your mice a sophisticated palate.<//><b>Effect:</b><.>mice/click x1.5<.>mouse production +5%
-		icon:icons[1,7]
-		cost:100000 mice
-		passive:multiply mouse yield of mouseButton by 1.5
-		passive:multiply yield of mice by 1.05
-		req:50000 mice:earned
-		
-	*brie
-		name:Creamy brie
-		desc:Soft, fancy cheese fit for rodent royalty.<//><b>Effect:</b><.>mice/click x1.5<.>mouse production +5%
-		icon:icons[1,8]
-		cost:500000 mice
-		passive:multiply mouse yield of mouseButton by 1.5
-		passive:multiply yield of mice by 1.05
-		req:100000 mice:earned
-		
-	*berries
-		name:Wild berries
-		desc:Your mice look like little vampires when they start munching on these!<//><b>Effect:</b><.>mice/click x1.5<.>mouse production +5%
-		icon:icons[1,9]
-		cost:1000000 mice
-		passive:multiply mouse yield of mouseButton by 1.5
-		passive:multiply yield of mice by 1.05
-		req:500000 mice:earned
-		
-	*fondue
-		name:Golden fondue
-		desc:The quintessential mouse feast! Warm, melted, and perfect.<//><b>Effect:</b><.>mice/click x2<.>mouse production +10%
-		icon:icons[1,0]
-		cost:100000000 mice
-		passive:multiply mouse yield of mouseButton by 2
-		passive:multiply yield of mice by 1.1
-		req:1000000 mice:earned
-		
-	//building upgrades
-	*buildingUpgrade1
-		name:Tiny water bottles
-		desc:Your mice can drink their fill!<//><b>Effect:</b><.>mouse hole production x2<.>mouse nest production x2<.>mouse burrow production x2
-		icon:icons[2,0] icons[3,0]
-		cost:1000 mice
-		passive:multiply yield of hole by 2
-		passive:multiply yield of nest by 2
-		passive:multiply yield of burrow by 2
-		req:(holes>=10 or nests>=10 or burrows>=10)
-		
-	*buildingUpgrade2
-		name:Fluffy cotton balls
-		desc:The ultimate bedding material!<//><b>Effect:</b><.>mouse hole production x2<.>mouse nest production x2<.>mouse burrow production x2
-		icon:icons[2,0] icons[3,1]
-		cost:100000 mice
-		passive:multiply yield of hole by 2
-		passive:multiply yield of nest by 2
-		passive:multiply yield of burrow by 2
-		req:(holes>=50 or nests>=50 or burrows>=50)
-		
-	*buildingUpgrade3
-		name:Cardboard tubes
-		desc:Hours of endless tunnel-running entertainment.<//><b>Effect:</b><.>mouse hole production x2<.>mouse nest production x2<.>mouse burrow production x2
-		icon:icons[2,0] icons[3,2]
-		cost:5000000 mice
-		passive:multiply yield of hole by 2
-		passive:multiply yield of nest by 2
-		passive:multiply yield of burrow by 2
-		req:(holes>=100 or nests>=100 or burrows>=100)
-		
-	*buildingUpgrade4
-		name:Secret floorboards
-		desc:Just wide enough for your mice to sneak around unnoticed!<//><b>Effect:</b><.>kitchen pantry production x2<.>grain barn production x2
-		icon:icons[2,0] icons[3,3]
-		cost:50000 mice
-		passive:multiply yield of pantry by 2
-		passive:multiply yield of barn by 2
-		req:(pantries>=10 or barns>=10)
-		
-	*buildingUpgrade5
-		name:Exercise wheels
-		desc:If your mice are indoors, they might as well get their cardio in!<//><b>Effect:</b><.>kitchen pantry production x2<.>grain barn production x2
-		icon:icons[2,0] icons[3,4]
-		cost:5000000 mice
-		passive:multiply yield of pantry by 2
-		passive:multiply yield of barn by 2
-		req:(pantries>=50 or barns>=50)
-		
-	*buildingUpgrade6
-		name:Mouse TVs
-		desc:Televisions that broadcast mouse cartoons, mouse sitcoms, and mouse news bulletins.<//><b>Effect:</b><.>mouse village production x2<.>mouse city production x2
-		icon:icons[2,0] icons[3,5]
-		cost:1000000 mice
-		passive:multiply yield of village by 2
-		passive:multiply yield of city by 2
-		req:(villages>=10 or cities>=10)
-		
-	*buildingUpgrade7
-		name:Wee little mouse cars
-		desc:Your mice drive around in these. How nice!<//><b>Effect:</b><.>mouse village production x2<.>mouse city production x2
-		icon:icons[2,0] icons[3,6]
-		cost:500000000 mice
-		passive:multiply yield of village by 2
-		passive:multiply yield of city by 2
-		req:(villages>=50 or cities>=50)
-		
-	*buildingUpgrade8
-		name:Soothing moon crystals
-		desc:Just really nice to be around.<//><b>Effect:</b><.>cheese moon citadel production x2
-		icon:icons[2,0] icons[3,7]
-		cost:1000000000 mice
-		passive:multiply yield of citadel by 2
-		req:10 citadels
-		
 	//golden cheese upgrades
 	*goldenTouch
+		name:Golden touch
+		desc:The delicate art of finding dairy made of precious metals.<//><b>Effect:</b><.>1% chance of gaining 1 golden cheese per mouse click
+		icon:icons[2,5]
+		cost:1 goldenCheese
+		req:1 goldenCheese:earned
+		
+	*mouseHaste
+		name:Mouse's haste
+		desc:Squeak! Squeak! No time to waste!<//><b>Effect:</b><.>gold mice appear 30% more often
+		icon:icons[2,6]
+		passive:multiply frequency of GoldMouse by 0.7
+		cost:5 goldenCheeses
+		req:1 goldenCheese:earned
+	
+	*independenceDay
+		name:Independence day
+		desc:Your mice are making their first step towards declaring their independence from the oppressive shackles of traps and cages.<//><b>Effect:</b><.>unlocks new buildings
+		icon:icons[2,7]
+		cost:10 goldenCheeses
+		req:5 goldenCheeses:earned
+		
+	*clover
+		name:Clover
+		desc:A delicious herb that tastes lucky.<//><b>Effect:</b><.>gold mouse effects are 4 times more powerful
+		icon:icons[2,8]
+		cost:100 goldenCheeses
+		req:50 goldenCheeses:earned
+		
+	*moonGardens
+		name:Moon gardens
+		desc:The royal dairy farmers in your moon citadels have found new ways of cultivating cheese in reduced gravity!<//><b>Effect:</b><.>moon citadels now produce 1 golden cheese every 100 seconds
+		icon:icons[2,9]
+		cost:100 goldenCheeses
+		req:50 goldenCheeses:earned
+		
+Achievements
+	*TEMPLATE
+		on click:anim glow
+		
+	*mouseAchiev1
+		name:Squeak squeak
+		desc:Have <b>1</b> mouse.
+		req:1 mouse
+		icon:icons[2,4] icons[0,2] icons[0,6]
+	*mouseAchiev2
+		name:A tiny mischief
+		desc:Have <b>1000</b> mice.
+		req:1000 mice
+		icon:icons[2,4] icons[0,3] icons[0,6]
+	*mouseAchiev3
+		name:You got mice, nice
+		desc:Have <b>1000000</b> mice.
+		req:1000000 mice
+		icon:icons[2,4] icons[0,4] icons[0,6]
+		
+	*clickAchiev1
+		name:That tickles
+		desc:Click the mouse <b>10</b> times.
+		req:10 mouseButton clicks
+		icon:icons[2,2] icons[0,2] icons[0,6]
+	*clickAchiev2
+		name:Don't squeeze me I'll squeak
+		desc:Click the mouse <b>100</b> times.
+		req:100 mouseButton clicks
+		icon:icons[2,2] icons[0,3] icons[0,6]
+	*clickAchiev3
+		name:You're cruising for a bruising, dude
+		desc:Click the mouse <b>2000</b> times.
+		req:2000 mouseButton clicks
+		icon:icons[2,2] icons[0,4] icons[0,6]
+		
+	*mousePsAchiev1
+		name:Quiet as a mouse
+		desc:Produce <b>10</b> mice per second.
+		req:10 mice per second
+		icon:icons[2,3] icons[0,2] icons[0,6]
+	*mousePsAchiev2
+		name:Scurry and scamper
+		desc:Produce <b>1000</b> mice per second.
+		req:1000 mice per second
+		icon:icons[2,3] icons[0,3] icons[0,6]
+	*mousePsAchiev3
+		name:Go forth and multiply
+		desc:Produce <b>100000</b> mice per second.
+		req:100000 mice per second
+		icon:icons[2,3] icons[0,4] icons[0,6]
+		
+	*cheeseAchiev1
+		name:Isn't it neat
+		desc:Have <b>1</b> golden cheese.
+		req:1 goldenCheese
+		icon:icons[0,1] icons[0,2]
+	*cheeseAchiev2
+		name:All that glitters
+		desc:Have <b>100</b> golden cheeses.
+		req:100 goldenCheeses
+		icon:icons[0,1] icons[0,3]
+	*cheeseAchiev3
+		name:Zero nutritional value
+		desc:Have <b>1000</b> golden cheeses.
+		req:1000 goldenCheeses
+		icon:icons[0,1] icons[0,4]
+	
+	*fortressAchiev
+		name:Cheddar supremacy!
+		desc:Complete building the <b>cheddar fortress</b>.<//>This is it. You beat the game!
+		req:100 fortress
+		icon:icons[3,8] icons[0,4]
