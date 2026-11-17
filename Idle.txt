@@ -12,6 +12,11 @@ Settings
 	building cost refund:50%
 	spritesheet:icons, 48 by 48, stuff/bunnyIcons.png
 	stylesheet:stuff/bigBlue.css
+	on start:
+		yield random(1,3) namePart1
+		yield random(1,3) namePart2
+	end
+
 
 Layout
 	use default
@@ -29,6 +34,16 @@ Buttons
 		icon class:shadowed
 		tooltip origin:bottom
 		tooltip class:red
+			*cageNameButton
+		text:[?(namePart1=1)|Mc][?(namePart1=2)|Awesome ][?(namePart1=3)|Squeaky ][?(namePart2=1)|squeaks][?(namePart2=2)|mouse][?(namePart2=3)|rat]'s mouse cage
+		desc:Click to randomly rename your mouse cage!
+		on click:
+			lose all namePart1
+			lose all namePart2
+			yield random(1,3) namePart1
+			yield random(1,3) namePart2
+		end
+
 
 Resources
 	*mouse|mice
@@ -43,6 +58,10 @@ Resources
 		icon:icons[0,1]
 		class:noBackground
 		hidden when 0
+	*namePart1
+		hidden
+	*namePart2
+		hidden
 
 Shinies
 	*GoldMouse
